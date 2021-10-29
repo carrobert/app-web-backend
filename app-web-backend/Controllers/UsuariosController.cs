@@ -26,7 +26,7 @@ namespace app_web_backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([Bind("Id,Senha")]Usuario usuario)
+        public async Task<IActionResult> Login([Bind("Id,Senha")] Usuario usuario)
         {
             var user = await _context.Usuarios
                 .FirstOrDefaultAsync(m => m.Id == usuario.Id);
@@ -67,6 +67,12 @@ namespace app_web_backend.Controllers
 
             ViewBag.Message = "Usuário e/ou Senha inválidas!";
             return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Usuarios");
         }
 
         public IActionResult AccessDenied()
